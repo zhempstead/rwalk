@@ -44,7 +44,9 @@ def read_edgelist(fname, comments='#', delimiter=None):
     edges = np.genfromtxt(fname, comments=comments, delimiter=delimiter,
         defaultfmt='%d', dtype=np.int32)
     assert(len(edges.shape) == 2)
-    assert(edges.shape[1] == 2)
+    assert(edges.shape[1] in [2, 3])
+    if edges.shape[1] == 3:
+        edges = edges[:, :2] # Ignore weights
 
     # Sort so smaller index comes first
     edges.sort(axis=1)
